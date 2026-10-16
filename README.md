@@ -1,58 +1,47 @@
-# Warden site
+# Warden landing
 
-A responsive marketing site and field guide for Warden, a local AI activity companion for macOS. Built with React, TypeScript, and Vite. The public site uses only synthetic example data; it never captures the visitor’s screen.
+A concise product site for Warden: set a daily task, see how much recorded time went toward it, and review where the rest of the day went.
 
-## Develop
+Built with React, TypeScript, and Vite. All activity shown on the site is synthetic example data; the website does not capture screens or call the Warden backend.
 
-Use Node.js 22.12+ (Node 24 LTS recommended).
+## Development
+
+Requires Node.js 22.12 or newer.
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Open the URL Vite prints, including the `/warden-site/` base path.
+## Build
 
 ```sh
 npm run build
 npm run preview
 ```
 
-The build runs strict TypeScript checks and creates the static `dist/` directory. React, icons, scripts, and font files are bundled locally. There are no runtime CDN dependencies, analytics, or remote form/API submissions. Interactive examples use only local page state.
+The build type-checks the project and writes static files to `dist/`. The Vite base is relative (`./`), so the same build can be hosted at a domain root or a repository subpath. Fonts and icons are bundled locally.
 
-## Publish on GitHub Pages
+Repository: [sepezho/warden-landing](https://github.com/sepezho/warden-landing). Work lives on `main`. CI and hosting are intentionally not configured; publish `dist/` using your preferred deployment process.
 
-The repository is designed for `https://sepezho.github.io/warden-site/`. Vite’s `base` is `/warden-site/` in `vite.config.ts`. If the repository name or hosting path changes, update that value.
+## Design and behavior
 
-The GitHub Actions workflow in `.github/workflows/pages.yml` builds and deploys from `main`. In the repository settings, select **Pages → Source → GitHub Actions**. Push to `main` or run the workflow manually. Only the built static files are published.
+- One interactive daily summary, concise feature descriptions, and expandable product details.
+- Light and dark themes, a system preference, and a locally saved theme choice.
+- Responsive layout, keyboard controls, visible focus, and reduced-motion support.
+- The same green W mark used in the native Warden app.
+- No analytics, remote form submissions, or runtime CDN dependencies.
 
-## Content and interactions
+The score is the share of recorded active time related to the chosen task, not a measurement of work quality. Example values are illustrative. Local AI can misclassify activity. The current native app requires Apple Silicon, macOS 26+, and source access; there is no public binary download linked here.
 
-- A synthetic product example has keyboard-accessible Overview, History, Memory, and Models tabs.
-- Overview shows five time categories with explanations and expandable timeline episodes.
-- The daily-intention example updates the Overview locally in page state. Refreshing resets it.
-- History filters an example OCR archive and displays an honest empty state.
-- Memory provides topic selection, zoom, rotation, and fit controls.
-- Models explains the three default model roles without pretending to perform downloads.
-- The field guide includes installation requirements, goal score semantics, model management, permissions, optional Asana, and data retention.
-- The setup copy button uses the Clipboard API and provides a manual-copy message if unavailable.
-- Mobile navigation, documentation chapters, and FAQ controls have accessible states. Motion respects `prefers-reduced-motion`.
-
-## Accuracy and source access
-
-The current Warden app repository requires source access. This site does not claim a public app download, an app license, or a verified binary release. Its setup command is explicitly for people with repository access. Review this wording if a public release becomes available.
-
-Product claims were checked against the Warden working tree on October 16, 2026. Warden’s analysis is local; dependency/model downloads and explicitly connected Asana use the network. Docker Desktop and Ollama may have separate update or analytics settings. Deleting stored screenshot images does not also delete retained OCR, history, or AI memory.
-
-Demo time values are illustrative, not measurements from a user. The overview’s 192 on-focus minutes out of 266 recorded minutes rounds to 72%. No customer counts, benchmark claims, or testimonials are invented.
+Deleting screenshot images in Warden retains recognized text, activity history, and AI memory. Model and dependency downloads, and an optional connected Asana account, use the network; screen analysis runs locally.
 
 ## Design references
 
-The site uses a restrained ivory, ink, and green palette, self-hosted DM Sans and Instrument Serif, and a product-led narrative. Official references informed the structure, not copied assets or copy:
+The redesign applies clear product descriptions, concrete examples, and less visual noise:
 
-- [Linear](https://linear.app/) — demonstrate the product early and connect capabilities to real workflows.
-- [Raycast](https://www.raycast.com/) — make a Mac utility tangible through concrete interactions.
-- [Apple: Privacy](https://developer.apple.com/design/human-interface-guidelines/privacy) — explain access and controls in context.
-- [WAI-ARIA tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/) — arrow-key navigation and selected-panel relationships.
+- [Nielsen Norman Group: homepage usability](https://www.nngroup.com/articles/top-ten-guidelines-for-homepage-usability/)
+- [Linear: a calmer interface](https://linear.app/now/behind-the-latest-design-refresh)
+- [Vitsœ: Dieter Rams’ principles of good design](https://www.vitsoe.com/us/about/good-design)
 
-All product illustrations are authored in HTML, CSS, and SVG. Fonts are packaged from Fontsource; their license files are included in `public/licenses/` and the published build.
+Font license files are included in `public/licenses/` and the built site.

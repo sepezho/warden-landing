@@ -3,22 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f5f4ee" />
+    <meta name="theme-color" content="#f6f7f4" />
+    <script>
+      (() => {
+        let preference = "system";
+        try {
+          const saved = localStorage.getItem("warden-theme");
+          if (saved === "light" || saved === "dark" || saved === "system")
+            preference = saved;
+        } catch {}
+        const theme =
+          preference === "system"
+            ? window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light"
+            : preference;
+        document.documentElement.dataset.preference = preference;
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+        document.documentElement.style.backgroundColor =
+          theme === "dark" ? "#151916" : "#f6f7f4";
+        document.querySelector('meta[name="theme-color"]').content =
+          theme === "dark" ? "#151916" : "#f6f7f4";
+      })();
+    </script>
     <meta
       name="description"
-      content="Warden is a local AI activity companion for macOS. Set your daily intent, understand your attention, and find the work you want to remember. Your activity is processed on your Mac."
+      content="Set a daily goal. Warden uses local AI on your Mac to show time on task, distractions, and a review of your day."
     />
     <meta property="og:type" content="website" />
-    <meta
-      property="og:title"
-      content="Warden — A little more intention. A lot more focus."
-    />
+    <meta property="og:title" content="Warden — See where your workday went." />
     <meta
       property="og:description"
-      content="A local AI activity companion for your Mac. Understand your day, reconnect with your goals, and remember your work."
+      content="Time on your goal, distractions, and a daily review. A local activity tracker for macOS."
     />
     <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
-    <title>Warden — Work with intention.</title>
+    <title>Warden — See where your workday went.</title>
   </head>
   <body>
     <div id="root"></div>
