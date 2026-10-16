@@ -6,7 +6,7 @@ Built with React, TypeScript, and Vite. All activity shown on the site is synthe
 
 ## Development
 
-Requires Node.js 22.12 or newer.
+Use Node.js 24, matching `.nvmrc` and CI (Vite requires at least Node.js 22.12).
 
 ```sh
 npm ci
@@ -22,7 +22,29 @@ npm run preview
 
 The build type-checks the project and writes static files to `dist/`. The Vite base is relative (`./`), so the same build can be hosted at a domain root or a repository subpath. Fonts and icons are bundled locally.
 
-Repository: [sepezho/warden-landing](https://github.com/sepezho/warden-landing). Work lives on `main`. CI and hosting are intentionally not configured; publish `dist/` using your preferred deployment process.
+Repository: [sepezho/warden-landing](https://github.com/sepezho/warden-landing). Work lives on `main`.
+
+## CI and GitHub Pages
+
+[CI and deployment runs](https://github.com/sepezho/warden-landing/actions/workflows/pages.yml)
+
+Pull requests run a locked dependency install, Prettier validation, TypeScript checking, and a production build. Pull requests never deploy. Pushes to `main` run the same checks and publish only the resulting `dist/` artifact through GitHub's official Pages actions. The workflow can also be run manually from Actions.
+
+**One-time owner setup:** in [Settings → Pages](https://github.com/sepezho/warden-landing/settings/pages), set **Source → GitHub Actions**. A collaborator with write access cannot necessarily enable Pages. After enabling it, rerun the workflow. If the `github-pages` environment requires approval, approve the deployment there.
+
+The default deployment URL is **https://sepezho.github.io/warden-landing/**. This URL becomes available only after a successful deployment; a green build alone does not mean publication succeeded. No custom domain is configured.
+
+Actions are pinned to commit SHAs. The build has read-only repository access; only the deployment job has `pages: write` and `id-token: write`. No personal access token or repository secret is required. Production deployments are serialized rather than cancelled midway.
+
+Run the CI checks locally before pushing:
+
+```sh
+npm ci
+npm run format:check
+npm run build
+```
+
+To roll back, revert the unwanted source commit on `main`; CI will rebuild and deploy that revision. Do not publish the source directory or commit `dist/`.
 
 ## Design and behavior
 
